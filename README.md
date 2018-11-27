@@ -19,3 +19,4 @@ FORENSICS
 * https://medium.com/@FourOctets/ctf-tidbits-part-1-steganography-ea76cc526b40
 * [ZipCracker](https://github.com/hyc/fcrackzip)(http://oldhome.schmorp.de/marc/fcrackzip.html)
 * https://www.aldeid.com/wiki/Xortool#Installationhttps://www.aldeid.com/wiki/Xortool#Installation
+* https://ctfs.github.io/resources/topics/steganography/invisible-text/README.html
