@@ -20,3 +20,9 @@ FORENSICS
 * [ZipCracker](https://github.com/hyc/fcrackzip)(http://oldhome.schmorp.de/marc/fcrackzip.html)
 * https://www.aldeid.com/wiki/Xortool#Installationhttps://www.aldeid.com/wiki/Xortool#Installation
 * https://ctfs.github.io/resources/topics/steganography/invisible-text/README.html
+
+
+
+BINARY ANALYSIS
+
+* [Snowman](https://derevenets.com/) Free
