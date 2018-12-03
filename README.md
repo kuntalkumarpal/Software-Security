@@ -26,3 +26,14 @@ FORENSICS
 BINARY ANALYSIS
 
 * [Snowman](https://derevenets.com/) Free
+
+
+
+WEB EXPLOITATION
+
+* Php
+* JavaScript
+* C
+* Sqlite
+* MySql
+* cUrl
