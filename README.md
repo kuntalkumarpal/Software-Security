@@ -37,3 +37,6 @@ WEB EXPLOITATION
 * Sqlite
 * MySql
 * cUrl
+
+* https://null-byte.wonderhowto.com/how-to/exploit-php-file-inclusion-web-apps-0179955/
+* (Php Security)[http://phpsec.org/projects/guide/]
