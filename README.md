@@ -40,3 +40,7 @@ WEB EXPLOITATION
 
 * https://null-byte.wonderhowto.com/how-to/exploit-php-file-inclusion-web-apps-0179955/
 * (Php Security)[http://phpsec.org/projects/guide/]
+
+[User-Agent Based](https://betanews.com/2017/03/22/user-agent-based-attacks-are-a-low-key-risk-that-shouldnt-be-overlooked/)
+[Setting User-Agent](https://www.cyberciti.biz/faq/curl-set-user-agent-command-linux-unix/)
+
