@@ -57,7 +57,7 @@ Resources:
 In this attack using the ../ in a series, one can reach the root directory. The number of ../ doesn't matter to reach the root. Then one can append the path to a malicious file.
 
 - Egg Environment Variable Usage
-Using putenv() one can add a shellcode to an environment variable. It is called planting an egg in the environment. Then get the address of the environment variable and somehow use this address to invoke the shell. This can be done in two ways. 1) If an integer array you can directly store address of EGG
+Using putenv() one can add a shellcode to an environment variable. It is called planting an egg in the environment. Then get the address of the environment variable and somehow use this address to invoke the shell. This can be done in two ways. 1) Directly giving address of EGG If an integer array you can directly store address of EGG
 
      `int main(int argc, char *argv[]
      {
@@ -68,14 +68,29 @@ Using putenv() one can add a shellcode to an environment variable. It is called 
      }`
 
 Here you can store the address of EGG to the 11th index and execute the shellcode when main returns 
+
+2) Address of Shellcode is prepended with NOP and appended with fillers and then with address of the NOPs so that it goes back to the shellcode
+`msg = "\x90"*100 + shellcode + "A"*65416 + "\xb8\xd6\xfd\xff"`
+
 FACT : Environment variables are present in the same stack area as the binary if one can create generate a shell with an EGG and in that shell run the binary
+* Shellcodes are readily available [here](http://shell-storm.org/) but they depends on the system.
 
 - TOCTOU (Time to Check Time to Use) Attack
 `//piece of code where access permission of file is checked
 //Some amount of time in between access granted and file read 
 //piece of code where file is read `
 If, in this time between file access granted and actually read, a symlink is created for the file sensitive information like /etc/passwd or /etc/shadow then it can be read. Again it can be used to invoke shell if code for file execution is present instead of reading 
+Implementation : Run the binary in background using & and in foreground create a symlink of same name to a malicious file 
 FACT : The system does not check whether it is file or symlink
+
+- 
+ 
+ * Compilations
+ `gcc -Wall -O0 -g -fno-omit-frame-pointer -Wno-deprecated-declarations -D_FORTIFY_SOURCE=0 -fno-pie -Wno-format -Wno-format-security -z norelro -z execstack -fno-stack-protector -m32 -mpreferred-stack-boundary=2 -o eggcodefish eggcodefish.c`
+
+* How to keep argc = 0
+* How to keep argc = 0 but pass argv ?
+* Tips to find which part of string is being taken as EIP. Pass a string like "AAAABBBBCCCCDDDD...." and use gdb-peda to see what is the EIP value when there is segmentation fault. Then replace the EGG variable addresss in place of that part of string.
 
 ## WEB EXPLOITATION
 
