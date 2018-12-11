@@ -49,8 +49,33 @@ Resources:
 - Look for system calls, array with hard-coded array sizes or offsets, excessive number of type castings
 - Symlink Creation
 - Memory Corruption
-- 
+- Environment Variable Tampering
+* HOME variable - If a binary is using HOME variable to create a path of a file, then the HOME variable can be tampered to call a different file with same name but malicious content.
+* PATH variable - Whenever system files like ls, tidy is called in a binary it first check the PATH variable, if there is a match it calls the file with the matched path. If a path can be appended in the beginning of the PATH variable then the first match would be the path to the malicious file with same name. Also system functions like *execlp* uses PATH variable
 
+- Dot Dot Slash (../) Attack
+In this attack using the ../ in a series, one can reach the root directory. The number of ../ doesn't matter to reach the root. Then one can append the path to a malicious file.
+
+- Egg Environment Variable Usage
+Using putenv() one can add a shellcode to an environment variable. It is called planting an egg in the environment. Then get the address of the environment variable and somehow use this address to invoke the shell. This can be done in two ways. 1) If an integer array you can directly store address of EGG
+
+     `int main(int argc, char *argv[]
+     {
+          int array[8];
+          ...
+          //Both index and value is being calculated from argv
+          array[index] = value;
+     }`
+
+Here you can store the address of EGG to the 11th index and execute the shellcode when main returns 
+FACT : Environment variables are present in the same stack area as the binary if one can create generate a shell with an EGG and in that shell run the binary
+
+- TOCTOU (Time to Check Time to Use) Attack
+`//piece of code where access permission of file is checked
+//Some amount of time in between access granted and file read 
+//piece of code where file is read `
+If, in this time between file access granted and actually read, a symlink is created for the file sensitive information like /etc/passwd or /etc/shadow then it can be read. Again it can be used to invoke shell if code for file execution is present instead of reading 
+FACT : The system does not check whether it is file or symlink
 
 ## WEB EXPLOITATION
 
@@ -76,5 +101,5 @@ Resources:
 * XPATH Injection
 * SQL Injection
 * [XSS Injection](https://www.youtube.com/playlist?list=PL1A2CSdiySGIRec2pvDMkYNi3iRO89Zot)
-      *Using Webhooks: Requestbin, 
+      * Using Webhooks: [requestbin](https://requestbin.fullcontact.com/), [hookb](https://hookbin.com/)
 * 
