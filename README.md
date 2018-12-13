@@ -180,7 +180,7 @@ Always check that the hacks, backdoors created are still running even if execute
 * Own services are running
 Always need to check is any services has stopped executing
 * Defence against Deleted Flags
-Sometimes opponents might delete flags which may cause one's service to fail. To prevent this rsync](https://rsync.samba.org/) can be used.
+Sometimes opponents might delete flags which may cause one's service to fail. To prevent this [rsync](https://rsync.samba.org/) can be used.
 * Actual Ips of the participants are hidden. So stopping access of opponents through firewalls cannot be done. 
 * SUID problems are where one can get access of shellwith the permission same as that of the binary. This is also called privilege escalation
 * [CTF-Training by Adam Doupe](https://github.com/adamdoupe/ctf-training)
